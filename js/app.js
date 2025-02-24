@@ -1,18 +1,6 @@
 // app.js
 
-/**
- * Clase que representa un proyecto individual
- * Maneja la información y el formato de presentación de cada proyecto
- */
 class Project {
-    /**
-     * @param {number} id - Identificador único del proyecto
-     * @param {string} nombre - Nombre del proyecto
-     * @param {string} estado - Estado actual del proyecto (en-progreso, completados, pausados)
-     * @param {string} fechaActualizacion - Fecha de última actualización
-     * @param {Array<string>} tecnologias - Array de tecnologías utilizadas
-     * @param {string} descripcion - Descripción detallada del proyecto
-     */
     constructor(id, nombre, estado, fechaActualizacion, tecnologias, descripcion) {
         this.id = id;
         this.nombre = nombre;
@@ -22,10 +10,6 @@ class Project {
         this.descripcion = descripcion;
     }
 
-    /**
-     * Formatea la fecha de actualización al formato local español
-     * @returns {string} Fecha formateada (ejemplo: "20 de febrero de 2025")
-     */
     formatDate() {
         return new Date(this.fechaActualizacion).toLocaleDateString('es-ES', {
             year: 'numeric',
@@ -34,10 +18,6 @@ class Project {
         });
     }
 
-    /**
-     * Obtiene la clase CSS correspondiente al estado del proyecto
-     * @returns {string} Nombre de la clase CSS
-     */
     getStatusClass() {
         const statusClasses = {
             'en-progreso': 'status-progress',
@@ -47,10 +27,6 @@ class Project {
         return statusClasses[this.estado];
     }
 
-    /**
-     * Obtiene el texto formateado del estado del proyecto
-     * @returns {string} Texto del estado en español
-     */
     getStatusText() {
         const statusTexts = {
             'en-progreso': 'En Progreso',
@@ -61,23 +37,15 @@ class Project {
     }
 }
 
-/**
- * Clase principal que gestiona el dashboard
- * Maneja la carga de datos, filtros y visualización de proyectos
- */
 class DashboardManager {
     constructor() {
-        // Inicializa el array de proyectos
         this.projects = [];
-        // Recupera el filtro guardado en localStorage o usa 'todos' por defecto
         this.currentFilter = localStorage.getItem('currentFilter') || 'todos';
+        this.currentPage = 1;
+        this.projectsPerPage = 10;
         this.init();
     }
 
-    /**
-     * Inicializa el dashboard
-     * Carga los datos y configura los eventos
-     */
     async init() {
         await this.loadProjectsData();
         this.setupEventListeners();
@@ -85,10 +53,6 @@ class DashboardManager {
         this.setActiveFilter();
     }
 
-    /**
-     * Carga los datos de los proyectos desde el archivo JSON
-     * Crea instancias de Project para cada proyecto
-     */
     async loadProjectsData() {
         try {
             const response = await fetch('projects.json');
@@ -106,9 +70,6 @@ class DashboardManager {
         }
     }
 
-    /**
-     * Configura los event listeners para los botones de filtro
-     */
     setupEventListeners() {
         const filterButtons = document.querySelectorAll('.filter-btn');
         filterButtons.forEach(button => {
@@ -117,22 +78,26 @@ class DashboardManager {
                 this.handleFilterChange(filter);
             });
         });
+
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', () => {
+            this.loadProjects();
+        });
+
+        const sortSelect = document.getElementById('sortSelect');
+        sortSelect.addEventListener('change', () => {
+            this.loadProjects();
+        });
     }
 
-    /**
-     * Maneja el cambio de filtro
-     * @param {string} filter - Filtro seleccionado
-     */
     handleFilterChange(filter) {
         this.currentFilter = filter;
         localStorage.setItem('currentFilter', filter);
         this.setActiveFilter();
+        this.currentPage = 1;
         this.loadProjects();
     }
 
-    /**
-     * Actualiza la clase active en los botones de filtro
-     */
     setActiveFilter() {
         const buttons = document.querySelectorAll('.filter-btn');
         buttons.forEach(button => {
@@ -140,19 +105,76 @@ class DashboardManager {
         });
     }
 
-    /**
-     * Carga y muestra los proyectos en el grid
-     * Aplica los filtros actuales
-     */
     loadProjects() {
         const projectsGrid = document.getElementById('projectsGrid');
         const filteredProjects = this.filterProjects();
-        
-        projectsGrid.innerHTML = filteredProjects
+        const searchedProjects = this.searchProjects(filteredProjects);
+        const sortedProjects = this.sortProjects(searchedProjects);
+        const paginatedProjects = this.paginateProjects(sortedProjects);
+
+        projectsGrid.innerHTML = paginatedProjects
             .map(project => this.createProjectCard(project))
             .join('');
 
-        // Agrega event listeners a las tarjetas de proyecto
+        this.setupPagination(sortedProjects.length);
+        this.setupProjectCardClickEvents();
+    }
+
+    filterProjects() {
+        if (this.currentFilter === 'todos') {
+            return this.projects;
+        }
+        return this.projects.filter(project => project.estado === this.currentFilter);
+    }
+
+    searchProjects(projects) {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        return projects.filter(project => project.nombre.toLowerCase().includes(searchInput));
+    }
+
+    sortProjects(projects) {
+        const sortSelect = document.getElementById('sortSelect').value;
+        return projects.sort((a, b) => {
+            if (sortSelect === 'fechaActualizacion') {
+                return new Date(b.fechaActualizacion) - new Date(a.fechaActualizacion);
+            } else if (sortSelect === 'nombre') {
+                return a.nombre.localeCompare(b.nombre);
+            } else if (sortSelect === 'estado') {
+                return a.estado.localeCompare(b.estado);
+            }
+        });
+    }
+
+    paginateProjects(projects) {
+        const startIndex = (this.currentPage - 1) * this.projectsPerPage;
+        const endIndex = startIndex + this.projectsPerPage;
+        return projects.slice(startIndex, endIndex);
+    }
+
+    setupPagination(totalProjects) {
+        const paginationContainer = document.getElementById('pagination');
+        const totalPages = Math.ceil(totalProjects / this.projectsPerPage);
+
+        paginationContainer.innerHTML = `
+            <button class="pagination__button" ${this.currentPage === 1 ? 'disabled' : ''} data-page="${this.currentPage - 1}">Anterior</button>
+            ${Array.from({ length: totalPages }, (_, i) => `
+                <button class="pagination__button ${this.currentPage === i + 1 ? 'active' : ''}" data-page="${i + 1}">${i + 1}</button>
+            `).join('')}
+            <button class="pagination__button" ${this.currentPage === totalPages ? 'disabled' : ''} data-page="${this.currentPage + 1}">Siguiente</button>
+        `;
+
+        paginationContainer.querySelectorAll('.pagination__button').forEach(button => {
+            button.addEventListener('click', () => {
+                const page = parseInt(button.dataset.page);
+                if (!isNaN(page)) {
+                    this.currentPage = page;
+                    this.loadProjects();
+                }
+            });
+        });
+    }
+
+    setupProjectCardClickEvents() {
         document.querySelectorAll('.project-card').forEach(card => {
             card.addEventListener('click', () => {
                 const projectId = parseInt(card.dataset.id);
@@ -162,22 +184,6 @@ class DashboardManager {
         });
     }
 
-    /**
-     * Filtra los proyectos según el filtro actual
-     * @returns {Array<Project>} Array de proyectos filtrados
-     */
-    filterProjects() {
-        if (this.currentFilter === 'todos') {
-            return this.projects;
-        }
-        return this.projects.filter(project => project.estado === this.currentFilter);
-    }
-
-    /**
-     * Crea el HTML para una tarjeta de proyecto
-     * @param {Project} project - Instancia de Project
-     * @returns {string} HTML de la tarjeta
-     */
     createProjectCard(project) {
         return `
             <article class="project-card" data-id="${project.id}">
@@ -197,23 +203,34 @@ class DashboardManager {
         `;
     }
 
-    /**
-     * Muestra los detalles de un proyecto en una alerta
-     * @param {Project} project - Instancia de Project
-     */
     showProjectDetails(project) {
-        const message = `
-            Proyecto: ${project.nombre}
-            Estado: ${project.estado}
-            Fecha de actualización: ${project.formatDate()}
-            Tecnologías: ${project.tecnologias.join(', ')}
-            Descripción: ${project.descripcion}
+        const modal = document.createElement('div');
+        modal.classList.add('modal');
+        modal.innerHTML = `
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>${project.nombre}</h2>
+                <p><strong>Estado:</strong> ${project.getStatusText()}</p>
+                <p><strong>Fecha de actualización:</strong> ${project.formatDate()}</p>
+                <p><strong>Tecnologías:</strong> ${project.tecnologias.join(', ')}</p>
+                <p><strong>Descripción:</strong> ${project.descripcion}</p>
+            </div>
         `;
-        alert(message);
+        document.body.appendChild(modal);
+
+        const closeButton = modal.querySelector('.close-button');
+        closeButton.addEventListener('click', () => {
+            document.body.removeChild(modal);
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                document.body.removeChild(modal);
+            }
+        });
     }
 }
 
-// Inicializa el dashboard cuando el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', () => {
     new DashboardManager();
 });

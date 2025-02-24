@@ -28,10 +28,16 @@
         <section class="filters" aria-labelledby="filters-heading">
             <h2 id="filters-heading">Mis Proyectos</h2>
             <div class="filters__container">
+                <input type="text" id="searchInput" placeholder="Buscar proyectos..." class="search-input">
                 <button class="filter-btn active" data-filter="todos">Todos</button>
                 <button class="filter-btn" data-filter="en-progreso">En Progreso</button>
                 <button class="filter-btn" data-filter="completados">Completados</button>
                 <button class="filter-btn" data-filter="pausados">Pausados</button>
+                <select id="sortSelect" class="sort-select">
+                    <option value="fechaActualizacion">Fecha de Actualización</option>
+                    <option value="nombre">Nombre</option>
+                    <option value="estado">Estado</option>
+                </select>
             </div>
         </section>
 
@@ -39,6 +45,9 @@
             <h2 id="projects-heading" class="visually-hidden">Proyectos</h2>
             <div class="projects__grid" id="projectsGrid">
                 <!-- Los proyectos se cargarán dinámicamente aquí -->
+            </div>
+            <div class="pagination" id="pagination">
+                <!-- Controles de paginación -->
             </div>
         </section>
     </main>

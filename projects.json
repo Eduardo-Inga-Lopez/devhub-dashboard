@@ -22,5 +22,45 @@
         "fechaActualizacion": "2025-02-10",
         "tecnologias": ["Angular", "Express", "PostgreSQL"],
         "descripcion": "Aplicación para gestión de recursos empresariales"
+    },
+    {
+        "id": 4,
+        "nombre": "Sistema de Reservas",
+        "estado": "en-progreso",
+        "fechaActualizacion": "2025-03-01",
+        "tecnologias": ["JavaScript", "Node.js", "MySQL"],
+        "descripcion": "Sistema de reservas para hoteles y restaurantes"
+    },
+    {
+        "id": 5,
+        "nombre": "Portal de Noticias",
+        "estado": "completados",
+        "fechaActualizacion": "2025-02-25",
+        "tecnologias": ["React", "Redux", "Firebase"],
+        "descripcion": "Portal de noticias con actualización en tiempo real"
+    },
+    {
+        "id": 6,
+        "nombre": "Aplicación de Tareas",
+        "estado": "pausados",
+        "fechaActualizacion": "2025-02-18",
+        "tecnologias": ["Vue.js", "Node.js", "MongoDB"],
+        "descripcion": "Aplicación para la gestión de tareas personales"
+    },
+    {
+        "id": 7,
+        "nombre": "Red Social",
+        "estado": "en-progreso",
+        "fechaActualizacion": "2025-03-05",
+        "tecnologias": ["Angular", "Firebase"],
+        "descripcion": "Red social para compartir fotos y videos"
+    },
+    {
+        "id": 8,
+        "nombre": "Sistema de Inventario",
+        "estado": "completados",
+        "fechaActualizacion": "2025-02-28",
+        "tecnologias": ["React", "Node.js", "PostgreSQL"],
+        "descripcion": "Sistema de gestión de inventarios para empresas"
     }
 ]
