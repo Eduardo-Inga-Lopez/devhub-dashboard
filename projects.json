@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "nombre": "E-commerce Platform",
+        "estado": "en-progreso",
+        "fechaActualizacion": "2025-02-20",
+        "tecnologias": ["React", "Node.js", "MongoDB"],
+        "descripcion": "Plataforma de comercio electrónico con panel de administración"
+    },
+    {
+        "id": 2,
+        "nombre": "Blog Personal",
+        "estado": "completados",
+        "fechaActualizacion": "2025-02-15",
+        "tecnologias": ["Vue.js", "Firebase"],
+        "descripcion": "Blog personal con sistema de gestión de contenidos"
+    },
+    {
+        "id": 3,
+        "nombre": "App de Gestión",
+        "estado": "pausados",
+        "fechaActualizacion": "2025-02-10",
+        "tecnologias": ["Angular", "Express", "PostgreSQL"],
+        "descripcion": "Aplicación para gestión de recursos empresariales"
+    }
+]
