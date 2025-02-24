@@ -42,7 +42,7 @@ class DashboardManager {
         this.projects = [];
         this.currentFilter = localStorage.getItem('currentFilter') || 'todos';
         this.currentPage = 1;
-        this.projectsPerPage = 10;
+        this.projectsPerPage = 9;
         this.init();
     }
 

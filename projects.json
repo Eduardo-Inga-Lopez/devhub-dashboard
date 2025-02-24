@@ -62,5 +62,101 @@
         "fechaActualizacion": "2025-02-28",
         "tecnologias": ["React", "Node.js", "PostgreSQL"],
         "descripcion": "Sistema de gestión de inventarios para empresas"
+    },
+    {
+        "id": 9,
+        "nombre": "Aplicación de Clima",
+        "estado": "en-progreso",
+        "fechaActualizacion": "2025-03-10",
+        "tecnologias": ["React", "Node.js", "API"],
+        "descripcion": "Aplicación para consultar el clima en tiempo real"
+    },
+    {
+        "id": 10,
+        "nombre": "Sistema de Facturación",
+        "estado": "completados",
+        "fechaActualizacion": "2025-03-12",
+        "tecnologias": ["Angular", "Node.js", "MySQL"],
+        "descripcion": "Sistema de facturación para pequeñas empresas"
+    },
+    {
+        "id": 11,
+        "nombre": "Aplicación de Fitness",
+        "estado": "pausados",
+        "fechaActualizacion": "2025-03-15",
+        "tecnologias": ["Vue.js", "Firebase"],
+        "descripcion": "Aplicación para seguimiento de rutinas de ejercicio"
+    },
+    {
+        "id": 12,
+        "nombre": "Plataforma de Educación",
+        "estado": "en-progreso",
+        "fechaActualizacion": "2025-03-18",
+        "tecnologias": ["React", "Node.js", "MongoDB"],
+        "descripcion": "Plataforma para cursos en línea"
+    },
+    {
+        "id": 13,
+        "nombre": "Aplicación de Viajes",
+        "estado": "completados",
+        "fechaActualizacion": "2025-03-20",
+        "tecnologias": ["Angular", "Express", "PostgreSQL"],
+        "descripcion": "Aplicación para planificar y reservar viajes"
+    },
+    {
+        "id": 14,
+        "nombre": "Sistema de Gestión de Eventos",
+        "estado": "pausados",
+        "fechaActualizacion": "2025-03-22",
+        "tecnologias": ["Vue.js", "Node.js", "MySQL"],
+        "descripcion": "Sistema para la gestión de eventos y conferencias"
+    },
+    {
+        "id": 15,
+        "nombre": "Aplicación de Recetas",
+        "estado": "en-progreso",
+        "fechaActualizacion": "2025-03-25",
+        "tecnologias": ["React", "Node.js", "MongoDB"],
+        "descripcion": "Aplicación para compartir y descubrir recetas"
+    },
+    {
+        "id": 16,
+        "nombre": "Sistema de Gestión de Bibliotecas",
+        "estado": "completados",
+        "fechaActualizacion": "2025-03-28",
+        "tecnologias": ["Angular", "Firebase"],
+        "descripcion": "Sistema para la gestión de bibliotecas y préstamos de libros"
+    },
+    {
+        "id": 17,
+        "nombre": "Aplicación de Meditación",
+        "estado": "pausados",
+        "fechaActualizacion": "2025-03-30",
+        "tecnologias": ["Vue.js", "Node.js", "MongoDB"],
+        "descripcion": "Aplicación para guías de meditación y relajación"
+    },
+    {
+        "id": 18,
+        "nombre": "Plataforma de Freelance",
+        "estado": "en-progreso",
+        "fechaActualizacion": "2025-04-01",
+        "tecnologias": ["React", "Node.js", "PostgreSQL"],
+        "descripcion": "Plataforma para conectar freelancers con clientes"
+    },
+    {
+        "id": 19,
+        "nombre": "Sistema de Gestión de Inventarios",
+        "estado": "completados",
+        "fechaActualizacion": "2025-04-03",
+        "tecnologias": ["Angular", "Express", "MySQL"],
+        "descripcion": "Sistema para la gestión de inventarios en almacenes"
+    },
+    {
+        "id": 20,
+        "nombre": "Aplicación de Finanzas Personales",
+        "estado": "pausados",
+        "fechaActualizacion": "2025-04-05",
+        "tecnologias": ["Vue.js", "Firebase"],
+        "descripcion": "Aplicación para la gestión de finanzas personales"
     }
 ]
